@@ -3,7 +3,9 @@ import cv2
 import numpy as np
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QMainWindow
-from PyQt5.QtCore import QDir, pyqtSlot
+from PyQt5.QtCore import QDir, pyqtSlot, Qt
+
+import Subject
 
 from main_window import Ui_MainWindow
 
@@ -34,7 +36,7 @@ class Image_Viewer(QMainWindow):
             pixmap.setDevicePixelRatio(pixRatio)
         self.ui.labelImg.setPixmap(pixmap)
         self.ui.labelImg.setScaledContents(True)
-        self.cv_img = cv2.imdecode(np.fromfile(self.filename, dtype=np.uint8), 1)
+        self.cv_img = cv2.imdecode(np.fromfile(self.filename, dtype=np.uint8), flags=cv2.IMREAD_UNCHANGED)
         self.raw_img = self.cv_img
         self.copy_img = self.cv_img
 
@@ -46,6 +48,16 @@ class Image_Viewer(QMainWindow):
         savename, filtUsed = QFileDialog.getSaveFileName(self, title, curPath, filt)
         if savename == "":
             return
+
+        # Point 1: 生成与黑色部分对应的mask图像
+        mask = np.all(self.cv_img[:, :, :] < [10, 10, 10], axis=-1)
+
+        # Point 2: 将图片从三通道转为四通道
+        self.cv_img = cv2.cvtColor(self.cv_img, cv2.COLOR_BGR2BGRA)
+
+        # Point3:  以mask图像为基础，使黑色部分透明化
+        self.cv_img[mask, 3] = 0
+
         cv2.imwrite(savename, self.cv_img)
 
     def on_horizontalSliderHue_pressed(self):
@@ -170,18 +182,28 @@ class Image_Viewer(QMainWindow):
         cv2.destroyAllWindows()
         self.refreshShow(self.cv_img)
 
+    def on_actionSelectForeground_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        if Subject.selectForeground(self.cv_img):
+            self.cv_img = cv2.imdecode(np.fromfile("ToolImg/transparent_image.jpg", dtype=np.uint8), 1)
+            self.copy_img = self.cv_img
+            self.refreshShow(self.cv_img)
+
     def refreshShow(self, img):
         # 提取图像的通道和尺寸，用于将OpenCV下的image转换成Qimage
         height, width, channel = img.shape
         bytesPerline = 3 * width
         qimg = QImage(img.data, width, height, bytesPerline, QImage.Format_BGR888)
-        pixmap = QPixmap.fromImage(qimg)
+        pixmap = QPixmap.fromImage(qimg)#.scaled(self.ui.labelImg.size(),aspectRatioMode=Qt.KeepAspectRatio)
+        #proportion = pixmap.height()/self.height()
+        #pixmap.setDevicePixelRatio(proportion)
         # 将QImage显示出来
-        if pixmap.width() > 400:
-            pixRatio = pixmap.width() / 400
-            pixmap.setDevicePixelRatio(pixRatio)
-        self.ui.labelImg.setPixmap(pixmap)
         self.ui.labelImg.setScaledContents(True)
+        self.ui.labelImg.setPixmap(pixmap)
+
 
 
 if __name__ == '__main__':

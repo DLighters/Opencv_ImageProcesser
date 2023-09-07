@@ -32,6 +32,9 @@
     <property name="text">
      <string/>
     </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
@@ -247,16 +250,56 @@
     <property name="title">
      <string>滤镜</string>
     </property>
+    <addaction name="actionAffineTrans"/>
+    <addaction name="actionPerspectiveTrans"/>
+    <addaction name="actionConvexLens"/>
+    <addaction name="actionConcaveLens"/>
+    <addaction name="actionSinTrans"/>
+    <addaction name="actionVortexFilter"/>
+    <addaction name="actionVignetting"/>
+    <addaction name="separator"/>
+    <addaction name="actionMosaic"/>
+    <addaction name="actionRelief"/>
+    <addaction name="actionSketchFilter"/>
+    <addaction name="actionRegionBlur"/>
+    <addaction name="actionStyleConversion"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="title">
-     <string>选择</string>
+     <string>主体</string>
     </property>
+    <addaction name="actionSelectForeground"/>
+    <addaction name="actionRectSelect"/>
+    <addaction name="actionDaubSelect"/>
+    <addaction name="actionDeleteObject"/>
+    <addaction name="actionZoomInOutObject"/>
+   </widget>
+   <widget class="QMenu" name="menu_5">
+    <property name="title">
+     <string>图像</string>
+    </property>
+    <addaction name="actionMergeImg"/>
+    <addaction name="actionHideImg"/>
+    <addaction name="actionColorSeparation"/>
+    <addaction name="actionThreshold"/>
+    <addaction name="actionEditBackground"/>
+    <addaction name="separator"/>
+    <addaction name="actionIDPhoto"/>
+   </widget>
+   <widget class="QMenu" name="menu_6">
+    <property name="title">
+     <string>文本</string>
+    </property>
+    <addaction name="actionInsertText"/>
+    <addaction name="actionDeleteText"/>
+    <addaction name="actionTextAlignCurve"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
    <addaction name="menu_3"/>
    <addaction name="menu_4"/>
+   <addaction name="menu_5"/>
+   <addaction name="menu_6"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionRevoke">
@@ -284,9 +327,144 @@
     <string>裁剪</string>
    </property>
   </action>
+  <action name="actionAffineTrans">
+   <property name="text">
+    <string>仿射变换</string>
+   </property>
+  </action>
+  <action name="actionPerspectiveTrans">
+   <property name="text">
+    <string>透视变换</string>
+   </property>
+  </action>
+  <action name="actionConvexLens">
+   <property name="text">
+    <string>凸透镜</string>
+   </property>
+  </action>
+  <action name="actionConcaveLens">
+   <property name="text">
+    <string>凹透镜</string>
+   </property>
+  </action>
+  <action name="actionSinTrans">
+   <property name="text">
+    <string>正弦变换</string>
+   </property>
+  </action>
+  <action name="actionVortexFilter">
+   <property name="text">
+    <string>漩涡滤镜</string>
+   </property>
+  </action>
+  <action name="actionMosaic">
+   <property name="text">
+    <string>马赛克化</string>
+   </property>
+  </action>
+  <action name="actionRelief">
+   <property name="text">
+    <string>图像浮雕</string>
+   </property>
+  </action>
+  <action name="actionSketchFilter">
+   <property name="text">
+    <string>草图生成</string>
+   </property>
+  </action>
+  <action name="actionVignetting">
+   <property name="text">
+    <string>中心渐晕</string>
+   </property>
+  </action>
+  <action name="actionSelectForeground">
+   <property name="text">
+    <string>选择前景</string>
+   </property>
+  </action>
+  <action name="actionMergeImg">
+   <property name="text">
+    <string>合并图片</string>
+   </property>
+  </action>
+  <action name="actionRegionBlur">
+   <property name="text">
+    <string>多边形对区域打码</string>
+   </property>
+  </action>
+  <action name="actionHideImg">
+   <property name="text">
+    <string>隐藏图片</string>
+   </property>
+  </action>
+  <action name="action_16">
+   <property name="text">
+    <string>插入文字</string>
+   </property>
+  </action>
+  <action name="actionColorSeparation">
+   <property name="text">
+    <string>图像颜色分离</string>
+   </property>
+  </action>
+  <action name="actionThreshold">
+   <property name="text">
+    <string>图像阈值化</string>
+   </property>
+  </action>
+  <action name="actionEditBackground">
+   <property name="text">
+    <string>图像换背景</string>
+   </property>
+  </action>
+  <action name="actionIDPhoto">
+   <property name="text">
+    <string>制作证件照</string>
+   </property>
+  </action>
+  <action name="actionRectSelect">
+   <property name="text">
+    <string>矩形选取目标</string>
+   </property>
+  </action>
+  <action name="actionDaubSelect">
+   <property name="text">
+    <string>涂抹选取目标</string>
+   </property>
+  </action>
+  <action name="actionInsertText">
+   <property name="text">
+    <string>插入文字</string>
+   </property>
+  </action>
+  <action name="actionDeleteText">
+   <property name="text">
+    <string>去除文字</string>
+   </property>
+  </action>
+  <action name="actionStyleConversion">
+   <property name="text">
+    <string>图像风格转化</string>
+   </property>
+  </action>
+  <action name="actionTextAlignCurve">
+   <property name="text">
+    <string>沿曲线插入文字</string>
+   </property>
+  </action>
+  <action name="actionDeleteObject">
+   <property name="text">
+    <string>去除图像中的物体</string>
+   </property>
+  </action>
+  <action name="actionZoomInOutObject">
+   <property name="text">
+    <string>缩放图像中的物体</string>
+   </property>
+  </action>
  </widget>
  <resources>
-  <include location="pic_ui.qrc"/>
+  <include location="../专业实训Opencv/pyqt/pic_ui.qrc"/>
  </resources>
  <connections>
   <connection>
