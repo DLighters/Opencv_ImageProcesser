@@ -1,12 +1,14 @@
 import sys
+
 import cv2
 import numpy as np
+from PyQt5.QtCore import QDir, pyqtSlot
 from PyQt5.QtGui import QPixmap, QImage
-from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QMainWindow
-from PyQt5.QtCore import QDir, pyqtSlot, Qt
+from PyQt5.QtWidgets import QApplication, QFileDialog, QMainWindow
 
+import Filter
+import Image
 import Subject
-
 from main_window import Ui_MainWindow
 
 
@@ -191,18 +193,98 @@ class Image_Viewer(QMainWindow):
         self.copy_img = self.cv_img
         self.refreshShow(self.cv_img)
 
+    def on_actionRectSelect_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        # self.cv_img = Subject.rectSelect(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionAffineTrans_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Filter.affineTrans(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionPerspectiveTrans_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Filter.perspectiveTrans(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionConvexLens_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Filter.convexLens(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionConcaveLens_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Filter.concaveLens(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionSinTrans_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Filter.sinTrans(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionVortexFilter_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Filter.vortexFilter(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+
+    def on_actionMergeImg_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+
+        curPath = QDir.currentPath()
+        title = "选择图片"
+        filt = "所有文件(*.*);;图片文件(*.jpg *.png *.gif)"
+        bg_filename, bg_filtUsed = QFileDialog.getOpenFileName(self, title, curPath, filt)
+        if bg_filename == "":
+            return
+        bg_img = cv2.imdecode(np.fromfile(bg_filename, dtype=np.uint8), flags=cv2.IMREAD_UNCHANGED)
+
+        self.cv_img = Image.mergeImg(bg_img, self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+
     def refreshShow(self, img):
         # 提取图像的通道和尺寸，用于将OpenCV下的image转换成Qimage
         height, width, channel = img.shape
         bytesPerline = 3 * width
         qimg = QImage(img.data, width, height, bytesPerline, QImage.Format_BGR888)
-        pixmap = QPixmap.fromImage(qimg)#.scaled(self.ui.labelImg.size(),aspectRatioMode=Qt.KeepAspectRatio)
-        #proportion = pixmap.height()/self.height()
-        #pixmap.setDevicePixelRatio(proportion)
+        pixmap = QPixmap.fromImage(qimg)
         # 将QImage显示出来
         self.ui.labelImg.setScaledContents(True)
         self.ui.labelImg.setPixmap(pixmap)
-
 
 
 if __name__ == '__main__':

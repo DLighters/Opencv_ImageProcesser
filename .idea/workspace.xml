@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd2fc4c0-e100-4f10-945c-5bc933ac2a9d" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/Filter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Image.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OutputImg/transparent_image.png" beforeDir="false" afterPath="$PROJECT_DIR$/OutputImg/transparent_image.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Subject.py" beforeDir="false" afterPath="$PROJECT_DIR$/Subject.py" afterDir="false" />
@@ -15,8 +17,18 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Filter.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -30,7 +42,8 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "E:/专业实训/Opencv_ImageProcesser/main_function.py"
+    "last_opened_file_path": "E:/专业实训/Opencv_ImageProcesser/main_function.py",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="RunManager">

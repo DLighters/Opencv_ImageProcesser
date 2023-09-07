@@ -56,9 +56,32 @@ def selectForeground(img):
 
 
 def rectSelect(img):
-    return False
+    window_name = 'cut_img'
+
+    while True:
+        # cv2.imshow(window_name, img)
+        roi = cv2.selectROI(img, showCrosshair=True, fromCenter=False)
+        mask = np.zeros(img.shape[:2], np.uint8)
+        bgdModel = np.zeros((1, 65), np.float64)
+        fgdModel = np.zeros((1, 65), np.float64)
+        cv2.grabCut(img, mask, roi, bgdModel, fgdModel, 1, cv2.GC_INIT_WITH_RECT)
+        mask2 = np.where((mask == 2) | (mask == 0), 0, 1).astype('uint8')
+        img = img * mask2[:, :, np.newaxis]
+
+        mask = np.all(img[:, :, :] == [0, 0, 0], axis=-1)
+        trans_img = cv2.cvtColor(img, cv2.COLOR_BGR2BGRA)
+        trans_img[mask, 3] = 0
+        cv2.imwrite('OutputImg/grabcut_image.png', trans_img)
+
+        key = cv2.waitKey(1) & 0xFF
+        if key == 27:
+            # return img
+            break
+
+    cv2.destroyAllWindows()
+    return img
 
 
 img_path = "input_image.jpg"
 img_test = cv2.imread(img_path)
-# selectForeground(img_test)
+# img = rectSelect(img_test)
