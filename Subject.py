@@ -45,18 +45,14 @@ def selectForeground(img):
 
             img[np.where(img[:, :, 3] == 0)] = [0, 0, 0, 0]
             img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
-            cv2.imwrite('ToolImg/transparent_image.jpg', img)
-
-            cv2.destroyAllWindows()
-            return True
-            break
+            return img
 
         elif key == 27:  # 按下 'Esc' 键退出
             break
 
     # 销毁窗口
     cv2.destroyAllWindows()
-    return False
+    return img
 
 
 def rectSelect(img):

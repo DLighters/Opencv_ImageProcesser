@@ -50,7 +50,7 @@ class Image_Viewer(QMainWindow):
             return
 
         # Point 1: 生成与黑色部分对应的mask图像
-        mask = np.all(self.cv_img[:, :, :] < [10, 10, 10], axis=-1)
+        mask = np.all(self.cv_img[:, :, :] == [0, 0, 0], axis=-1)
 
         # Point 2: 将图片从三通道转为四通道
         self.cv_img = cv2.cvtColor(self.cv_img, cv2.COLOR_BGR2BGRA)
@@ -186,11 +186,10 @@ class Image_Viewer(QMainWindow):
         if self.filename == "":
             return
         self.last_img.append(self.cv_img)
+        self.cv_img = Subject.selectForeground(self.cv_img)
 
-        if Subject.selectForeground(self.cv_img):
-            self.cv_img = cv2.imdecode(np.fromfile("ToolImg/transparent_image.jpg", dtype=np.uint8), 1)
-            self.copy_img = self.cv_img
-            self.refreshShow(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
 
     def refreshShow(self, img):
         # 提取图像的通道和尺寸，用于将OpenCV下的image转换成Qimage
