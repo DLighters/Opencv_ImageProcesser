@@ -11,7 +11,6 @@ import Image
 import Subject
 from main_window import Ui_MainWindow
 
-
 class Image_Viewer(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -256,6 +255,14 @@ class Image_Viewer(QMainWindow):
         self.copy_img = self.cv_img
         self.refreshShow(self.cv_img)
 
+    def on_actionStyleConversion_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Filter.styleConversion(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
 
     def on_actionMergeImg_triggered(self):
         if self.filename == "":
@@ -276,6 +283,8 @@ class Image_Viewer(QMainWindow):
         self.refreshShow(self.cv_img)
 
 
+    def on_actionInsertText_triggered(self):
+        self.ui.textEdit
     def refreshShow(self, img):
         # 提取图像的通道和尺寸，用于将OpenCV下的image转换成Qimage
         height, width, channel = img.shape

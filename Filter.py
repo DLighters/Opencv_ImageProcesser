@@ -343,6 +343,86 @@ def vortexFilter(img):
     return result
 
 
+def styleConversion(image):
+    type = None
+    style = None
+
+    def ChangeStyle(value):
+        nonlocal type
+        nonlocal style
+        type = value
+        if type == 1:
+            style = cv2.COLORMAP_AUTUMN
+        elif type == 2:
+            style = cv2.COLORMAP_BONE
+        elif type == 3:
+            style = cv2.COLORMAP_CIVIDIS
+        elif type == 4:
+            style = cv2.COLORMAP_COOL
+        elif type == 5:
+            style = cv2.COLORMAP_DEEPGREEN
+        elif type == 6:
+            style = cv2.COLORMAP_HOT
+        elif type == 7:
+            style = cv2.COLORMAP_HSV
+        elif type == 8:
+            style = cv2.COLORMAP_INFERNO
+        elif type == 9:
+            style = cv2.COLORMAP_JET
+        elif type == 10:
+            style = cv2.COLORMAP_MAGMA
+        elif type == 11:
+            style = cv2.COLORMAP_OCEAN
+        elif type == 12:
+            style = cv2.COLORMAP_PARULA
+        elif type == 13:
+            style = cv2.COLORMAP_PINK
+        elif type == 14:
+            style = cv2.COLORMAP_PLASMA
+        elif type == 15:
+            style = cv2.COLORMAP_RAINBOW
+        elif type == 16:
+            style = cv2.COLORMAP_SPRING
+        elif type == 17:
+            style = cv2.COLORMAP_SUMMER
+        elif type == 18:
+            style = cv2.COLORMAP_TURBO
+        elif type == 19:
+            style = cv2.COLORMAP_TWILIGHT
+        elif type == 20:
+            style = cv2.COLORMAP_TWILIGHT_SHIFTED
+        elif type == 21:
+            style = cv2.COLORMAP_VIRIDIS
+        elif type == 22:
+            style = cv2.COLORMAP_WINTER
+
+    def LUTColorStyleChange(image):
+        cv2_luts = [lut for lut in dir(cv2) if lut.startswith("COLORMAP_")]
+        all_lut_imgs = [(lut, cv2.applyColorMap(image, eval("cv2." + lut))) for lut in cv2_luts]
+        add_text_imgs = [cv2.putText(lut_img[1], lut_img[0], (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+                         for
+                         lut_img in all_lut_imgs]
+        col1 = np.vstack(tuple(add_text_imgs[0:11]))
+        col2 = np.vstack(tuple(add_text_imgs[11:22]))
+        result = np.hstack((col1, col2))
+
+        res = cv2.applyColorMap(image, style)
+        return res
+
+    cv2.namedWindow("ColorStyleChange")
+    cv2.createTrackbar("Style", "ColorStyleChange", 1, 22, ChangeStyle)
+    while True:
+        res = LUTColorStyleChange(image)
+        cv2.imshow("ColorStyleChange", res)
+        if cv2.waitKey(1) == 13:
+            return res
+            break
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    return image
+
+
 img_path = "input_image.jpg"
 img_test = cv2.imread(img_path)
-# sinTrans(img_test)
+#styleConversion(img_test)

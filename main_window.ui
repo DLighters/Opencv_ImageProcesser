@@ -17,9 +17,9 @@
    <widget class="QLabel" name="labelImg">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>140</x>
       <y>50</y>
-      <width>701</width>
+      <width>481</width>
       <height>451</height>
      </rect>
     </property>
@@ -133,7 +133,7 @@
       <x>790</x>
       <y>50</y>
       <width>261</width>
-      <height>88</height>
+      <height>119</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -192,6 +192,33 @@
       </layout>
      </item>
      <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>对比度</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSlider" name="horizontalSliderContrast">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="value">
+          <number>50</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
       <layout class="QHBoxLayout" name="horizontalLayout_6">
        <item>
         <widget class="QLabel" name="label_3">
@@ -219,6 +246,29 @@
       </layout>
      </item>
     </layout>
+   </widget>
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>426</y>
+      <width>271</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>400</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>插入文本内容</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -389,7 +439,7 @@
   </action>
   <action name="actionRegionBlur">
    <property name="text">
-    <string>多边形对区域打码</string>
+    <string>多边形区域打码</string>
    </property>
   </action>
   <action name="actionHideImg">
@@ -506,8 +556,8 @@
    <slot>on_horizontalSliderValue_pressed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>868</x>
-     <y>149</y>
+     <x>923</x>
+     <y>192</y>
     </hint>
     <hint type="destinationlabel">
      <x>880</x>
