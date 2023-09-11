@@ -166,8 +166,7 @@ def convexLens(img):
     return img
 
 # 在图像中隐藏信息
-def hide_binary_image(img1, img2):
-    # 读入RGB图像图像
+def hideImg(img1, img2):
     img = cv2.resize(img2, (224, 224))
 
     # 灰度化
@@ -245,7 +244,7 @@ def hide_binary_image(img1, img2):
     cv2.destroyAllWindows()
     return e
 
-def color_divide(img):
+def colorDivide(img):
     # 创建一个窗口，放置6个滑动条
     cv2.namedWindow("ColorDivision")
     # cv2.resizeWindow("ColorDivision", 640, 240)
@@ -281,7 +280,127 @@ def color_divide(img):
     cv2.destroyAllWindows()
     return img
 
+def regionBlur(img):
+    window_name = 'Polygon Blurring'
+    polygon_color = (0, 0, 255)  # 多边形线条颜色 (B, G, R)
+    blur_kernel_size = (25, 25)  # 模糊核大小
 
+    polygon_points = []  # 多边形顶点
+
+    # 鼠标回调函数
+    def mouse_callback(event, x, y, flags, param):
+        nonlocal polygon_points
+
+        if event == cv2.EVENT_LBUTTONDOWN:
+            polygon_points.append((x, y))
+            cv2.circle(img, (x, y), 3, polygon_color, -1)
+
+    # 创建窗口并注册鼠标回调函数
+    cv2.namedWindow(window_name)
+    cv2.setMouseCallback(window_name, mouse_callback)
+
+    while True:
+        cv2.imshow(window_name, img)
+        key = cv2.waitKey(1) & 0xFF
+
+        if key == 13:  # 按下 'Enter' 键确认多边形顶点
+            if len(polygon_points) >= 3:
+                mask = np.zeros(img.shape[:2], dtype=np.uint8)
+                # 多边形顶点数组
+                points = np.array(polygon_points, np.int32)
+                # 填充多边形
+                cv2.fillPoly(mask, [points], 255)
+
+                # 对多边形区域进行模糊处理
+                blurred_img = cv2.blur(img, blur_kernel_size)
+
+                # 将多边形区域应用到原始图像上
+                img = np.where(mask[:, :, np.newaxis] == 255, blurred_img, img)
+
+            polygon_points = []
+
+        elif key == 27:  # 按下 'Esc' 键退出
+            break
+
+    # 销毁窗口
+    cv2.destroyAllWindows()
+    return img
+
+
+def sketchFilter(img):
+    def generate_sketch(x):
+        # 获取滚动条的当前值
+        sketch_type = cv2.getTrackbarPos('Sketch Type', 'Sketch Generation')
+
+        # 根据滚动条的值生成对应的草图
+        sketch = generate_sketch_image(sketch_type)
+
+        # 将原图和草图在水平方向上连接起来
+        combined_img = np.hstack((img, sketch))
+
+        # 显示合并图像
+        cv2.imshow('Sketch Generation', combined_img)
+        return sketch
+
+    # 定义生成草图的函数
+    def generate_sketch_image(sketch_type):
+        if sketch_type == 0:
+            # Canny边缘检测
+            edges = cv2.Canny(img, 100, 200)
+            sketch = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
+        elif sketch_type == 1:
+            # Laplacian边缘检测
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            edges = cv2.Laplacian(gray, cv2.CV_8U)
+            sketch = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
+        else:
+            # 其他草图生成方法...
+            sketch = np.zeros_like(img)
+
+        return sketch
+
+    # 创建窗口并显示原图像
+    cv2.namedWindow('Sketch Generation')
+
+    # 创建滚动条以选择草图生成方法
+    cv2.createTrackbar('Sketch Type', 'Sketch Generation', 0, 2, generate_sketch)
+
+    # 初始化草图生成
+    sketchImg = generate_sketch(0)
+
+    # 等待按键操作
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+    return sketchImg
+
+
+def mosaic(img):
+    # 选择矩形区域
+    roi = cv2.selectROI('Select Region', img)
+
+    # 获取选定区域的坐标和尺寸
+    x, y, w, h = roi
+
+    if w == 0 or h == 0:
+        return img
+    # 提取选定区域图像
+    roi_image = img[y:y + h, x:x + w]
+
+    # 缩小选定区域图像
+    small_roi = cv2.resize(roi_image, (10, 10))
+
+    # 放大缩小后的图像
+    mosaic_roi = cv2.resize(small_roi, roi_image.shape[:2][::-1], interpolation=cv2.INTER_NEAREST)
+
+    # 将马赛克区域放回原图像中
+    img[y:y + h, x:x + w] = mosaic_roi
+
+    # 显示结果图像
+    cv2.imshow('Mosaic Image', img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    return img
 #图像阈值化
 def threshold(img):
     mode = None
@@ -597,5 +716,5 @@ def styleConversion(image):
 
 img_path = "input_image.jpg"
 img_test = cv2.imread(img_path)
-threshold(img_test)
+# threshold(img_test)
 

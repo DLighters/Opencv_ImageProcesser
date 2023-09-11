@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 import Make
-import Text
+import TextCaptureClass
 import textCapture
 from uiDemo10 import Ui_MainWindow  # 导入 uiDemo10.py 中的 Ui_MainWindow 界面类
 
@@ -27,7 +27,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow 类和 Ui_
         self.cap = None  #
         self.frameNum = 1  # 视频帧数初值
 
-        self.textCapture = Text.Dialog()
+        self.textCapture = TextCaptureClass.Dialog()
 
         # 菜单栏
         self.actionOpen.triggered.connect(self.openVideo)  # 连接并执行 openSlot 子程序

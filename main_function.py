@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import QApplication, QFileDialog, QMainWindow
 import Filter
 import Image
 import Subject
+import Text
 from main_window import Ui_MainWindow
 
 class Image_Viewer(QMainWindow):
@@ -255,6 +256,33 @@ class Image_Viewer(QMainWindow):
         self.copy_img = self.cv_img
         self.refreshShow(self.cv_img)
 
+    def on_actionRegionBlur_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Filter.regionBlur(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionMosaic_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Filter.mosaic(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionSketchFilter_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Filter.sketchFilter(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
     def on_actionStyleConversion_triggered(self):
         if self.filename == "":
             return
@@ -282,9 +310,69 @@ class Image_Viewer(QMainWindow):
         self.copy_img = self.cv_img
         self.refreshShow(self.cv_img)
 
+    def on_actionRegionBlur_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Filter.regionBlur(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionMosaic_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Filter.mosaic(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionSketchFilter_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Filter.sketchFilter(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionHideImg_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        curPath = QDir.currentPath()
+        title = "选择图片"
+        filt = "所有文件(*.*);;图片文件(*.jpg *.png *.gif)"
+        filename_2, filtUsed = QFileDialog.getOpenFileName(self, title, curPath, filt)
+        img_2 = cv2.imread(filename_2)
+
+        self.cv_img = Filter.hideImg(self.cv_img, img_2)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
 
     def on_actionInsertText_triggered(self):
-        self.ui.textEdit
+        text = self.ui.textEdit.toPlainText()
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Text.insertText(self.cv_img, text)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionDeleteText_triggered(self):
+        text = self.ui.textEdit.toPlainText()
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Text.deleteText(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+
     def refreshShow(self, img):
         # 提取图像的通道和尺寸，用于将OpenCV下的image转换成Qimage
         height, width, channel = img.shape
