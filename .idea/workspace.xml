@@ -5,14 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd2fc4c0-e100-4f10-945c-5bc933ac2a9d" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/VideoPost.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scrolling_subtitle.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/textCapture.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/textCapture.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/input_image1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/object_image.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Opencv_ImageProcesser.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Opencv_ImageProcesser.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Text.py" beforeDir="false" afterPath="$PROJECT_DIR$/Text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Video_function.py" beforeDir="false" afterPath="$PROJECT_DIR$/Video_function.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uiDemo10.ui" beforeDir="false" afterPath="$PROJECT_DIR$/uiDemo10.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Filter.py" beforeDir="false" afterPath="$PROJECT_DIR$/Filter.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +28,6 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$USER_HOME$/Documents/WeChat Files/wxid_qd7mn36vlsp922/FileStorage/File/2023-09/1.PictureTransition.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Filter.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -44,16 +41,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/专业实训/第九组第八次作业&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "D:/暑校专业技能实训/所有作业/第九组第六次作业",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
-  <component name="RunManager" selected="Python.Video_function">
+}]]></component>
+  <component name="RunManager">
     <configuration name="Video_function" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Opencv_ImageProcesser" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -62,7 +59,6 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="E:\srtp-仓储一体化\Pandas sort\Scripts\python.exe" />
-      <option name="SDK_NAME" value="Python 3.11 (Pandas sort)" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -84,7 +80,6 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="E:\srtp-仓储一体化\Pandas sort\Scripts\python.exe" />
-      <option name="SDK_NAME" value="Python 3.11 (Pandas sort)" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
