@@ -6,12 +6,14 @@ import sys
 import cv2 as cv
 import imageio.v2
 import numpy as np
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QDir
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 import Make
+import Text
+import textCapture
 from uiDemo10 import Ui_MainWindow  # 导入 uiDemo10.py 中的 Ui_MainWindow 界面类
 
 
@@ -24,6 +26,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow 类和 Ui_
         self.timerCam = QtCore.QTimer()  # 定时器，毫秒
         self.cap = None  #
         self.frameNum = 1  # 视频帧数初值
+
+        self.textCapture = Text.Dialog()
 
         # 菜单栏
         self.actionOpen.triggered.connect(self.openVideo)  # 连接并执行 openSlot 子程序
@@ -78,8 +82,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow 类和 Ui_
             # 将BGR图像转换为RGB图像
             frame_rgb = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
             frames.append(frame_rgb)
-        
-        imageio.v2.mimsave(savename, frames, format='GIF', duration = 100)
+
+        imageio.v2.mimsave(savename, frames, format='GIF', duration=100)
 
     def playVideo(self):  # 播放视频文件，点击 pushButtonPlay 触发
         # 实例化 VideoCapture 类
@@ -151,6 +155,9 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow 类和 Ui_
 
         path = Make.ImageTrans(img_1, img_2)
         self.openVideo_path(path)
+
+    def on_actionRowCaption_triggered(self):
+        self.textCapture.show()
 
 
 if __name__ == '__main__':
