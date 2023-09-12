@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
 import math
-
+import tkinter as tk
+from PIL import Image, ImageTk
 
 def affineTrans(img):
     window_name = 'Polygon Blurring'
@@ -165,120 +166,7 @@ def convexLens(img):
     cv2.destroyAllWindows()
     return img
 
-# 在图像中隐藏信息
-def hideImg(img1, img2):
-    img = cv2.resize(img2, (224, 224))
 
-    # 灰度化
-    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    # 二值化
-    ret, binary = cv2.threshold(img_gray, 127, 255, cv2.THRESH_BINARY)
-
-    print(binary.shape)
-    print(ret)
-    print(binary)
-    cv2.imshow('Binary', binary)
-    cv2.waitKey(0)
-
-    def insert_pic(event, x, y, flags, param):
-        nonlocal ix, iy, drawing
-        # 当按下左键是返回起始位置坐标
-
-        if event == cv2.EVENT_LBUTTONDOWN:
-            drawing = True
-            ix, iy = x, y
-            lena_copy = img1.copy()
-            lena_copy[y - 112:y + 112, x - 112:x + 112] = binary
-            cv2.imshow('image', lena_copy)
-            cv2.waitKey(1)
-
-        # 当鼠标左键按下并移动是绘制图形。 event 可以查看移动， flag 查看是否按下
-        if event == cv2.EVENT_MOUSEMOVE:
-            if drawing == True:
-                # 绘制圆圈，小圆点连在一起就成了线， size 代表了笔画的粗细
-                ix, iy = x, y
-                lena_copy = img1.copy()
-                lena_copy[y - 112:y + 112, x - 112:x + 112] = binary
-                cv2.imshow('image', lena_copy)
-
-            # 当鼠标松开停止绘画。
-
-    drawing = False
-    ix, iy = -1, -1
-    img1=cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
-    cv2.namedWindow("image")
-    cv2.setMouseCallback('image', insert_pic)
-    cv2.imshow('image', img1)
-
-    if cv2.waitKey(0) & 0xFF == 13:
-        drawing = False
-        # 读取原始载体图像的 shape 值
-        r, c = img1.shape
-        print(r, c)
-        watermark = np.zeros((r, c), dtype=np.uint8)
-        watermark[iy - 112:iy + 112, ix - 112:ix + 112] = binary
-        w = watermark[:, :] > 0
-        watermark[w] = 1
-
-        # =========嵌入过程========
-        # 生成元素值都是 254 的数组
-        t254 = np.ones((r, c), dtype=np.uint8) * 254
-        # 获取 img1 图像的高七位
-        lenaH7 = cv2.bitwise_and(img1, t254)
-        # 将 watermark 嵌入 lenaH7 内
-        e = cv2.bitwise_or(lenaH7, watermark)
-        cv2.imshow("image", e)
-        if cv2.waitKey(0) & 0xFF == 13:
-            # ======提取过程=========
-            # 生成元素值都是 1 的数组
-            t1 = np.ones((r, c), dtype=np.uint8)
-            # 从载体图像内提取水印图像
-            wm = cv2.bitwise_and(e, t1)
-            # 将水印图像内的值 1 处理为 255， 以方便显示
-            w = wm[:, :] > 0
-            wm[w] = 255
-
-            cv2.imshow("extract", wm)
-            cv2.waitKey(0)
-
-    cv2.destroyAllWindows()
-    return e
-
-def colorDivide(img):
-    # 创建一个窗口，放置6个滑动条
-    cv2.namedWindow("ColorDivision")
-    # cv2.resizeWindow("ColorDivision", 640, 240)
-    cv2.createTrackbar("Hue Min", "ColorDivision", 0, 179, lambda x: x)
-    cv2.createTrackbar("Hue Max", "ColorDivision", 19, 179, lambda x: x)
-    cv2.createTrackbar("Sat Min", "ColorDivision", 110, 255, lambda x: x)
-    cv2.createTrackbar("Sat Max", "ColorDivision", 240, 255, lambda x: x)
-    cv2.createTrackbar("Val Min", "ColorDivision", 153, 255, lambda x: x)
-    cv2.createTrackbar("Val Max", "ColorDivision", 255, 255, lambda x: x)
-    imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-
-    while True:
-        # 调用回调函数，获取滑动条的值
-        h_min = cv2.getTrackbarPos("Hue Min", "ColorDivision")
-        h_max = cv2.getTrackbarPos("Hue Max", "ColorDivision")
-        s_min = cv2.getTrackbarPos("Sat Min", "ColorDivision")
-        s_max = cv2.getTrackbarPos("Sat Max", "ColorDivision")
-        v_min = cv2.getTrackbarPos("Val Min", "ColorDivision")
-        v_max = cv2.getTrackbarPos("Val Max", "ColorDivision")
-
-        lower = np.array([h_min, s_min, v_min])
-        upper = np.array([h_max, s_max, v_max])
-        # 获得指定颜色范围内的掩码
-        mask = cv2.inRange(imgHSV, lower, upper)
-        # 对原图图像进行按位与的操作，掩码区域保留
-        imgResult = cv2.bitwise_and(img, img, mask=mask)
-        cv2.imshow("ColorDivision", imgResult)
-
-        key = cv2.waitKey(1)
-        if key == 13:
-            break
-
-    cv2.destroyAllWindows()
-    return img
 
 def regionBlur(img):
     window_name = 'Polygon Blurring'
@@ -401,46 +289,7 @@ def mosaic(img):
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     return img
-#图像阈值化
-def threshold(img):
-    mode = None
-    thresh = None
-    type = 0
 
-    def changeMode(value):
-        nonlocal mode
-        nonlocal type
-        type = value
-        if type == 1:
-            mode = cv2.THRESH_BINARY
-        elif type == 2:
-            mode = cv2.THRESH_BINARY_INV
-        elif type == 3:
-            mode = cv2.THRESH_TRUNC
-        elif type == 4:
-            mode = cv2.THRESH_TOZERO_INV
-        elif type == 5:
-            mode = cv2.THRESH_TOZERO
-        elif type == 6:
-            mode = cv2.THRESH_MASK
-
-
-    def changeThresh(value):
-        nonlocal thresh
-        thresh = value
-
-    cv2.namedWindow("Threshold")
-    cv2.createTrackbar("Mode", "Threshold", 1, 6, changeMode)
-    cv2.createTrackbar("Thresh", "Threshold", 100, 300, changeThresh)
-
-    while True:
-        retval, dst = cv2.threshold(img, thresh, 255, mode)
-        cv2.imshow("Threshold", dst)
-        if cv2.waitKey(1) == 27:
-            break
-
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
 
 
 def outline(img):
@@ -633,6 +482,206 @@ def vortexFilter(img):
     cv2.destroyAllWindows()
     return result
 
+def vignetting(img):
+    # 输入图像
+    image_copy = img.copy()
+
+    # 创建窗口
+    cv2.namedWindow("image")
+
+    # Global variables to store the coordinates of rectangle
+    roi_pts = []
+    drawing = False
+
+    def draw_roi(event, x, y, flags, param):
+        nonlocal roi_pts, drawing
+
+        if event == cv2.EVENT_LBUTTONDOWN:
+            drawing = True
+            roi_pts = [(x,y)]
+
+        elif event == cv2.EVENT_LBUTTONUP:
+            drawing = False
+            roi_pts.append((x, y))
+            cv2.rectangle(image_copy, roi_pts[0], roi_pts[1], (0, 255, 0), 2)
+            cv2.imshow("image", image_copy)
+
+    cv2.setMouseCallback("image", draw_roi)
+
+    while True:
+        cv2.imshow("image", image_copy)
+        key = cv2.waitKey(1) & 0xFF
+
+        # Press "r" to reset the ROI
+        if key == ord("r"):
+            image_copy = cv2.imread(img)
+            roi_pts = []
+
+        # Press "enter" to continue with the selected ROI
+        elif key == 13:
+            break
+    print(roi_pts)
+    # Get image dimensions
+    height, width = img.shape[:2]
+    print(height, width)
+    # 求ROI中心点坐标
+    # 横坐标为（左边横坐标+右边横坐标）/2
+    if len(roi_pts) == 0:
+        return img
+    center_y = (roi_pts[0][0] + roi_pts[1][0]) // 2
+    # 纵坐标为（上边纵坐标+下边纵坐标）/2
+    center_x = (roi_pts[0][1] + roi_pts[1][1]) // 2
+    print(center_x, center_y)
+    x = center_x
+    y = center_y
+    # Define vignette radius
+
+    # Close all windows
+    cv2.destroyAllWindows()
+
+
+    # 设置滚动条回调函数为无操作
+    def nothing(x):
+        return x
+
+    cv2.namedWindow("image")
+    # 创建滚动条
+    cv2.createTrackbar("threshold", "image", 200, 400, lambda x: x)
+
+    # 循环实现用户对滚动条的持续操作
+    while True:
+        # 获取滚动条的值
+        vignette_level = cv2.getTrackbarPos("threshold", "image")
+        # vignette_level = 200
+        # # 防止初始时滚动条0位置使结果清零
+        if vignette_level == 0:
+           vignette_level = 1
+        # # Create empty mask
+        # mask = np.zeros((height, width), dtype=np.uint8)
+        # # Create circular mask
+        # cv2.circle(mask, (center_x, center_y), radius, (255), -1)
+        #
+        # # Apply mask to the image
+        # result = cv2.bitwise_and(img, img, mask=mask)
+        # 用高斯核生成渐晕掩码
+        rows, cols = img.shape[:2]
+        if(x<=rows/2 and y<=cols/2):
+            kernel_x = cv2.getGaussianKernel(int(2*(rows-x)), vignette_level)
+            kernel_y = cv2.getGaussianKernel(int(2*(cols-y)), vignette_level)
+            kernel = kernel_x * kernel_y.T
+            mask = 255 * kernel / np.linalg.norm(kernel)
+            mask = mask[int(2*(rows-x))-rows:int(2*(rows-x)), int(2*(cols-y))-cols:int(2*(cols-y))]
+        elif(x>=rows/2 and y<=cols/2):
+            kernel_x = cv2.getGaussianKernel(int(2*(x)), vignette_level)
+            kernel_y = cv2.getGaussianKernel(int(2*(cols-y)), vignette_level)
+            kernel = kernel_x * kernel_y.T
+            mask = 255 * kernel / np.linalg.norm(kernel)
+            mask = mask[0:rows, int(2*(cols-y))-cols:int(2*(cols-y))]
+        elif (x <= rows / 2 and y >= cols / 2):
+            kernel_x = cv2.getGaussianKernel(int(2 * (rows-x)), vignette_level)
+            kernel_y = cv2.getGaussianKernel(int(2 * (y)), vignette_level)
+            kernel = kernel_x * kernel_y.T
+            mask = 255 * kernel / np.linalg.norm(kernel)
+            mask = mask[int(2 * (rows-x)) - rows:int(2 * (rows-x)), 0:cols]
+        else:
+            kernel_x = cv2.getGaussianKernel(int(2 * (x)), vignette_level)
+            kernel_y = cv2.getGaussianKernel(int(2 * (y)), vignette_level)
+            kernel = kernel_x * kernel_y.T
+            mask = 255 * kernel / np.linalg.norm(kernel)
+            mask = mask[0:rows, 0:cols]
+
+
+        result = np.copy(img)
+
+        # Adjust vignette effect intensity
+        # intensity_factor = 0.7
+        # result = result.astype(float)
+        # result *= intensity_factor
+        # result = np.clip(result, 0, 255).astype(np.uint8)
+
+
+        # 设置大小为滚动条的位置
+        for i in range(3):
+            # result[:, :, i] = result[:, :, i] * (vignette_level / 255)
+            result[:, :, i] = result[:, :, i] * mask
+        concat = np.concatenate((img, result), axis=1)
+        # 在和滚动条同一个窗口显示图像，以显示在滚动条下方
+        cv2.imshow('image', concat)
+        # 按q结束循环
+        if cv2.waitKey(1) & 0xFF == 27:
+            break
+        # 关闭所有窗口
+        return result
+
+
+def relief(img):
+    def update_emboss(*args):
+        # 获取滚动条的值
+        filter_size = filter_size_var.get()
+        direction = direction_var.get()
+
+        # 应用浮雕效果
+        embossed_image = apply_emboss(img, filter_size, direction)
+
+        # 显示处理后的图像
+        embossed_pil = Image.fromarray(embossed_image)
+        embossed_tk = ImageTk.PhotoImage(embossed_pil)
+        embossed_label.configure(image=embossed_tk)
+        embossed_label.image = embossed_tk
+
+    def apply_emboss(image, filter_size, direction):
+        # 创建一个浮雕滤波器
+        kernel = np.zeros((filter_size, filter_size), np.float32)
+        kernel[0, 0] = -1
+        kernel[filter_size - 1, filter_size - 1] = 1
+
+        # 根据方向旋转滤波器
+        if direction == 0:  # 垂直方向
+            kernel = np.rot90(kernel)
+        # elif direction == 1:  # 水平方向
+        #     kernel = np.flipud(kernel)
+
+        # 应用滤波器
+        embossed = cv2.filter2D(image, -1, kernel)
+
+        return embossed
+
+    # 创建Tkinter窗口
+    root = tk.Tk()
+
+    # 创建滚动条控制变量
+    filter_size_var = tk.IntVar()
+    direction_var = tk.IntVar()
+
+    # 创建滚动条和标签
+    filter_size_label = tk.Label(root, text="滤波器大小")
+    filter_size_label.pack()
+    filter_size_scale = tk.Scale(root, from_=3, to=15, orient=tk.HORIZONTAL, variable=filter_size_var,
+                                 command=update_emboss)
+    filter_size_scale.pack()
+
+    direction_label = tk.Label(root, text="浮雕方向\n(0: 垂直, 1: 水平)")
+    direction_label.pack()
+    direction_scale = tk.Scale(root, from_=0, to=1, orient=tk.HORIZONTAL, variable=direction_var, command=update_emboss)
+    direction_scale.pack()
+
+    # 显示原图
+    original_pil = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    original_tk = ImageTk.PhotoImage(original_pil)
+    original_label = tk.Label(root, image=original_tk)
+    original_label.pack()
+
+    # 显示处理后的图像
+    embossed_image = apply_emboss(img, filter_size_var.get(), direction_var.get())
+    embossed_pil = Image.fromarray(embossed_image)
+    embossed_tk = ImageTk.PhotoImage(embossed_pil)
+    embossed_label = tk.Label(root, image=embossed_tk)
+    embossed_label.pack()
+
+    # 运行Tkinter主循环
+    root.mainloop()
+
+    return embossed_image
 
 def styleConversion(image):
     type = None

@@ -5,14 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd2fc4c0-e100-4f10-945c-5bc933ac2a9d" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/TextCaptureClass.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Opencv_ImageProcesser.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Opencv_ImageProcesser.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/background.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figure_image.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontal.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/original_image.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/water.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Filter.py" beforeDir="false" afterPath="$PROJECT_DIR$/Filter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Text.py" beforeDir="false" afterPath="$PROJECT_DIR$/Text.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Image.py" beforeDir="false" afterPath="$PROJECT_DIR$/Image.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Make.py" beforeDir="false" afterPath="$PROJECT_DIR$/Make.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Subject.py" beforeDir="false" afterPath="$PROJECT_DIR$/Subject.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TextCaptureClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/TextCaptureClass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VideoPost.py" beforeDir="false" afterPath="$PROJECT_DIR$/VideoPost.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Video_function.py" beforeDir="false" afterPath="$PROJECT_DIR$/Video_function.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input_image1.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main_function.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_function.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/opencv.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scrolling_subtitle.gif" beforeDir="false" afterPath="$PROJECT_DIR$/scrolling_subtitle.gif" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +41,8 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$USER_HOME$/Documents/WeChat Files/wxid_qd7mn36vlsp922/FileStorage/File/2023-09/1.PictureTransition.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Filter.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Video_function.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/main_function.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -53,7 +64,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.main_function">
+  <component name="RunManager" selected="Python.Video_function">
     <configuration name="Video_function" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Opencv_ImageProcesser" />
       <option name="INTERPRETER_OPTIONS" value="" />

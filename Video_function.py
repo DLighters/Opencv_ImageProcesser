@@ -13,6 +13,7 @@ from PyQt5.QtGui import *
 
 import Make
 import TextCaptureClass
+import VideoPost
 import textCapture
 from uiDemo10 import Ui_MainWindow  # 导入 uiDemo10.py 中的 Ui_MainWindow 界面类
 
@@ -159,6 +160,41 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):  # 继承 QMainWindow 类和 Ui_
     def on_actionRowCaption_triggered(self):
         self.textCapture.show()
 
+    def on_actionImage2Video_triggered(self):
+        curPath = QDir.currentPath()
+        title = "选择图片"
+        filt = "所有文件(*.*);;图片文件(*.jpg *.png *.gif)"
+        imgName, filtUsed = QFileDialog.getOpenFileName(self, title, curPath, filt)
+
+        if imgName == "":
+            return
+        img = cv.imdecode(np.fromfile(imgName, dtype=np.uint8), flags=cv.IMREAD_UNCHANGED)
+
+        self.videoPath = Make.move(img)
+        self.cap = cv.VideoCapture(self.videoPath)
+        self.refreshFrame()
+
+    def on_actionPart2Video_triggered(self):
+        curPath = QDir.currentPath()
+        title = "选择图片"
+        filt = "所有文件(*.*);;图片文件(*.jpg *.png *.gif)"
+        imgName, filtUsed = QFileDialog.getOpenFileName(self, title, curPath, filt)
+
+        if imgName == "":
+            return
+        img = cv.imdecode(np.fromfile(imgName, dtype=np.uint8), flags=cv.IMREAD_UNCHANGED)
+
+        self.videoPath = Make.spin(img)
+        self.cap = cv.VideoCapture(self.videoPath)
+        self.refreshFrame()
+
+    def on_actionCutVideo_triggered(self):
+        return
+
+    def on_actionVideo2Image(self):
+        self.videoPath = VideoPost.video2Image(self.cap)
+        #self.cap = cv.VideoCapture(self.videoPath)
+        #self.refreshFrame()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)  # 在 QApplication 方法中使用，创建应用程序对象

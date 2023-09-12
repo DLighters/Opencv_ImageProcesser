@@ -12,6 +12,7 @@ import Subject
 import Text
 from main_window import Ui_MainWindow
 
+
 class Image_Viewer(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -256,6 +257,24 @@ class Image_Viewer(QMainWindow):
         self.copy_img = self.cv_img
         self.refreshShow(self.cv_img)
 
+    def on_actionVignetting_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Filter.vignetting(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionRelief_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Filter.relief(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
     def on_actionRegionBlur_triggered(self):
         if self.filename == "":
             return
@@ -297,7 +316,6 @@ class Image_Viewer(QMainWindow):
             return
         self.last_img.append(self.cv_img)
 
-
         curPath = QDir.currentPath()
         title = "选择图片"
         filt = "所有文件(*.*);;图片文件(*.jpg *.png *.gif)"
@@ -318,6 +336,7 @@ class Image_Viewer(QMainWindow):
         self.cv_img = Filter.regionBlur(self.cv_img)
         self.copy_img = self.cv_img
         self.refreshShow(self.cv_img)
+
 
     def on_actionMosaic_triggered(self):
         if self.filename == "":
@@ -346,11 +365,77 @@ class Image_Viewer(QMainWindow):
         title = "选择图片"
         filt = "所有文件(*.*);;图片文件(*.jpg *.png *.gif)"
         filename_2, filtUsed = QFileDialog.getOpenFileName(self, title, curPath, filt)
-        img_2 = cv2.imread(filename_2)
+        if filename_2 == "":
+            return
+        img_2 = cv2.imdecode(np.fromfile(filename_2, dtype=np.uint8), flags=cv2.IMREAD_UNCHANGED)
 
-        self.cv_img = Filter.hideImg(self.cv_img, img_2)
+        self.cv_img = Image.hideImg(self.cv_img, img_2)
         self.copy_img = self.cv_img
         self.refreshShow(self.cv_img)
+
+    def on_actionColorSeparation_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Image.colorDivide(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionThreshold_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Image.threshold(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionEditBackground_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        curPath = QDir.currentPath()
+        title = "选择图片"
+        filt = "所有文件(*.*);;图片文件(*.jpg *.png *.gif)"
+        bg_filename, bg_filtUsed = QFileDialog.getOpenFileName(self, title, curPath, filt)
+
+        if bg_filename == "":
+            return
+
+        background_img = cv2.imdecode(np.fromfile(bg_filename, dtype=np.uint8), flags=cv2.IMREAD_UNCHANGED)
+        self.cv_img = Image.changeBackground(background_img, self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionIDPhoto_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Image.makeIDcard(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionDeleteObject_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Subject.object_removal(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
+    def on_actionZoomInOutObject_triggered(self):
+        if self.filename == "":
+            return
+        self.last_img.append(self.cv_img)
+
+        self.cv_img = Subject.object_resize(self.cv_img)
+        self.copy_img = self.cv_img
+        self.refreshShow(self.cv_img)
+
 
     def on_actionInsertText_triggered(self):
         text = self.ui.textEdit.toPlainText()
@@ -372,9 +457,10 @@ class Image_Viewer(QMainWindow):
         self.copy_img = self.cv_img
         self.refreshShow(self.cv_img)
 
-
     def refreshShow(self, img):
         # 提取图像的通道和尺寸，用于将OpenCV下的image转换成Qimage
+        if img is None:
+            return
         height, width, channel = img.shape
         bytesPerline = 3 * width
         qimg = QImage(img.data, width, height, bytesPerline, QImage.Format_BGR888)

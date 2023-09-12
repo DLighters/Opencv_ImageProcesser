@@ -67,3 +67,52 @@ def scroll_subtitle(image, subtitle, font_size, scroll_speed, scroll_direction):
             break
 
     cv2.destroyAllWindows()
+
+def video2Image(vedio):
+    fps = 20
+
+    def read_video(video_path):
+        nonlocal fps
+        video_cap = cv2.VideoCapture(video_path)
+        # fps = video_cap.get(cv2.CAP_PROP_FPS)
+        frame_count = 0
+        all_frames = []
+        while True:
+            for k in range(fps):
+                ret, frame = video_cap.read()
+                if ret is False:
+                    break
+            if ret is False:
+                break
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            all_frames.append(frame)
+            cv2.imshow('frame', frame)
+            if cv2.waitKey(1) & 0xFF == 27:  # ESC退出
+                break
+            frame_count += 1
+            print(frame_count)
+        video_cap.release()
+        cv2.destroyAllWindows()
+        print('===>', len(all_frames))
+
+        return all_frames
+
+    def frame_to_gif(frame_list):
+        nonlocal fps
+        gif = imageio.mimsave('output.gif', frame_list, 'GIF', duration=1000 * 1 / fps)
+
+    # duration 表示图片间隔
+
+    # fps = int(input('请输入采样频率'))
+    frame_list = read_video('test.gif')
+    i = 0
+    for img in frame_list:
+        cv2.imwrite('ImageSequence/img' + str(i) + '.jpg', img)
+        i += 1
+
+    frame_to_gif(frame_list)
+    output_path = 'output.gif'
+    return output_path
+
+def cutVideo(vedio):
+    return
